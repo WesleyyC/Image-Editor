@@ -4,18 +4,16 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
 
+public class TheImage {
 
-public class AImage {
+	public BufferedImage im = null; 	
+	public int[] packedData = null; 	
+	public int[][][] pixelData = null; 	// Unit be modified.
+	public int height = 0; 				
+	public int width = 0; 				
 
-	public BufferedImage im = null; //don't modify this
-	public int[] packedData = null; //don't modify this
-	public int[][][] pixelData = null; //use this to modify the image
-	public int height = 0; //read but do not set this
-	public int width = 0; //read but do not set this
-
-	//Constructor. This allows a program to initialize an instance of
-	//this class by using the 'new' keyword.
-	public AImage(BufferedImage image) {
+	// Constructor.
+	public TheImage (BufferedImage image) {
 		im = image;
 		height = im.getHeight();
 		width = im.getWidth();
@@ -113,7 +111,6 @@ public class AImage {
 		}
 		return true;
 	}
-
 
 	//Uses bitwise operations to convert one integer into four channels,
 	//each with a range from 0 to 255.

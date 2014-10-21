@@ -4,13 +4,12 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Editor {
-
-	//For use in printing messages to user.
 	public static final String[] COLOR = {"Red", "Green", "Blue"};
 
 	public static void main(String[] args) {
-		System.out.println("Welcome to command line image editor.");
-		System.out.println("Type 'help' for usage information or, if you know how to use it, just type your command at the prompt.\n\n");
+		System.out.println("           Welcome to command line image editor.           ");
+		System.out.println("           =====================================           ");
+		System.out.println("Type 'help' for usage information or, if you know how to use it, just type your command at the prompt.");
 
 		//initialize scanner for all user interaction
 		Scanner console = new Scanner(System.in);
@@ -21,8 +20,8 @@ public class Editor {
 
 	//The main loop that reads user input and calls methods of the image
 	public static void interact(Scanner console) {
-		//The sole AImage instance this program uses.
-		AImage im1 = null;
+		//The sole TheImage instance this program uses.
+		TheImage im1 = null;
 
 		while (true) {
 			System.out.println("Enter command:");
@@ -34,7 +33,7 @@ public class Editor {
 			//This block of if / else-if statements controls the flow of the
 			//program based on user input. There are other ways to do this
 			//but for a project of this scale, if-statements are a decent option.
-			if (command == "help") {
+			if (command.equals("help")) {
 				displayHelp();
 			} else if (command.equals("load")) {
 				im1 = loadImage(console);
@@ -146,9 +145,9 @@ public class Editor {
 							"Subsequently prompts for two colors and a range.");
 	}
 
-	//Tries to load an image file into a AImage instance.
+	//Tries to load an image file into a TheImage instance.
 	//Returns null if load fails.
-	public static AImage loadImage(Scanner console) {
+	public static TheImage loadImage(Scanner console) {
 		//load file
 		System.out.println("Enter the name of the file you wish to load:");
 
@@ -174,7 +173,7 @@ public class Editor {
 			return null;
 		}
 
-		return new AImage(bi);
+		return new TheImage(bi);
 
 	}
 
