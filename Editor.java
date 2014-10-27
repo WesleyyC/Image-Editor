@@ -9,7 +9,7 @@ public class Editor {
 	public static void main(String[] args) {
 		System.out.println("           Welcome to command line image editor.           ");
 		System.out.println("           =====================================           ");
-		System.out.println("Type 'help' for usage information or, if you know how to use it, just type your command at the prompt.");
+		System.out.println("Type 'help' for usage information or, if you know how to use it, type your command at the prompt.");
 
 		//initialize scanner for all user interaction
 		Scanner console = new Scanner(System.in);
@@ -47,7 +47,7 @@ public class Editor {
 					System.out.println("No loaded image to write.");
 				} else {
 					System.out.println("Enter the file path where the image should be saved:");
-					if (im1.writeImage(new File(console.next().toLowerCase()))) {
+					if (im1.writeImage(new File(console.nextLine().toLowerCase()))) {
 						System.out.println("Image successfully saved.");
 					}
 				}
