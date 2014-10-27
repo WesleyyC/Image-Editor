@@ -1,7 +1,7 @@
 ImageEditor
 ===========
 
-This is an command line image editor written in Java still in progress.
+This is a command line image editor written in Java still in progress.
 
 Feature to be added:
 - Change color tone of the image.
