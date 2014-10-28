@@ -63,6 +63,12 @@ public class Editor {
 				} else {
 					System.out.println("No image loaded to flip.");
 				}
+			} else if (command.equals("crop")) {
+				if (im1 != null) {
+					im1.crop();
+				} else {
+					System.out.println("No image loaded to flip.");
+				}
 			} else if (command.equals("flip-vert")) {
 				if (im1 != null) {
 					im1.flipVertical();
@@ -155,7 +161,7 @@ public class Editor {
 		InputStream in = null;
 
 		//get file path from user
-		File f = new File(console.nextLine());
+		File f = new File(console.next());
 
 		//initialize stream from file
 		try {

@@ -1,16 +1,18 @@
 // This is a program that edits a picture.
 
 import java.awt.image.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import javax.imageio.*;
 import java.io.*;
 
 public class TheImage {
 
-	public BufferedImage im = null; 	
-	public int[] packedData = null; 	
+	public BufferedImage im = null;
+	public int[] packedData = null;
 	public int[][][] pixelData = null; 	// Unit be modified.
-	public int height = 0; 				
-	public int width = 0; 				
+	public int height = 0;
+	public int width = 0;
 
 	// Constructor.
 	public TheImage (BufferedImage image) {
@@ -127,6 +129,28 @@ public class TheImage {
 				pixelData[row][col][2] = (packedData[(row * width) + col]) & 0xff;
 			}
 		}
+	}
+
+	public void crop(){
+		if(width<height){
+			height = width;
+		}else{
+			width = height;
+		}
+		im = resize(im, width, height);
+
+		System.out.println("Crop a square image.");
+	}
+
+	public BufferedImage resize(BufferedImage im, int newW, int newH) {
+	    Image tmp = im.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+	    BufferedImage newIM = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D g2d = newIM.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+
+	    return newIM;
 	}
 
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
