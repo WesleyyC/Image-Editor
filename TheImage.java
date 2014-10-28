@@ -1,7 +1,6 @@
 // This is a program that edits a picture.
 
 import java.awt.image.*;
-import java.awt.*; // Image, Graphics2D Class.
 import javax.imageio.*;
 import java.io.*;
 
@@ -12,6 +11,8 @@ public class TheImage {
 	public int[][][] pixelData = null; 	// Unit be modified.
 	public int height = 0;
 	public int width = 0;
+	public int startX = 0;
+	public int startY = 0;
 
 	// Constructor.
 	public TheImage (BufferedImage image) {
@@ -92,7 +93,6 @@ public class TheImage {
 		System.out.println("Replaced color");
 	}
 
-
 	//Writes the current data in pixelData to a .png image by first packing
 	//the data into a 1D array of ints, then calling the write() method of
 	//the ImageIO class.
@@ -105,7 +105,7 @@ public class TheImage {
 		im.setRGB(0, 0, width, height, packedData, 0, width);
 
 		try{
-			ImageIO.write(im, "png", file);
+			ImageIO.write(im, "jpg", file);
 		} catch (IOException e) {
 			System.out.println("Writing image failed.");
 			return false;
@@ -133,44 +133,27 @@ public class TheImage {
 	// Crop the image as a squre in the center.
 	public void crop(){
 		if(width<height){
-			im = cropImage(im, new Rectangle(0, (height-width)/2, width, width));
+			startY=(height-width)/2;
 			height = width;
 		}else{
-			im = cropImage(im, new Rectangle((width-height)/2, 0, height, height));
+			startX=(width-height)/2;
 			width = height;
 		}
 
+		im = im.getSubimage(startX,startY, width, height);
+
 		System.out.println("Cropped.");
 	}
-
-	// General subImage with a Rectangle object.
-	private BufferedImage cropImage(BufferedImage src, Rectangle rect) {
-		//x, y is the coordinate of the left-low corner of the subimage.
-		BufferedImage dest = src.getSubimage(rect.x, rect.y, rect.width, rect.height);
-		return dest;
-	}
-
-	// End up not using this as it only size from the left top corner.
-	// Leave it here for now.
-	// public BufferedImage resize(BufferedImage im, int newW, int newH) {
-	//     Image tmp = im.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-	//     BufferedImage newIM = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-	//
-	//     Graphics2D g2d = newIM.createGraphics();
-	//     g2d.drawImage(tmp, 0, 0, null);
-	//     g2d.dispose();
-	//
-	//     return newIM;
-	// }
 
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
 	//into a single integer for use with the BufferedImage class.
 	public void packPixels() {
 		System.out.println("putting pixel values in packed format...");
 
-		for (int row = 0; row < height; row ++) {
-			for (int col = 0; col < width; col ++) {
-				packedData[(row * width) + col] = ((255 & 0xFF) << 24) | //alpha
+		// Pack the data from the startX and startY coordinate
+		for (int row = startY; row < height+startY; row ++) {
+			for (int col = startX; col < width+startX; col ++) {
+				packedData[((row-startY) * width) + (col-startX)] = ((255 & 0xFF) << 24) | //alpha
 	            ((pixelData[row][col][0] & 0xFF) << 16) | //red
 	            ((pixelData[row][col][1] & 0xFF) << 8)  | //green
 	            ((pixelData[row][col][2] & 0xFF) << 0); //blue
