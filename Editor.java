@@ -67,7 +67,7 @@ public class Editor {
 				if (im1 != null) {
 					im1.crop();
 				} else {
-					System.out.println("No image loaded to flip.");
+					System.out.println("No image loaded to crop.");
 				}
 			} else if (command.equals("flip-vert")) {
 				if (im1 != null) {
@@ -149,6 +149,8 @@ public class Editor {
 		System.out.println("'invert' -- Calls the invert() method of the current image.");
 		System.out.println("'replace' -- Calls the replaceColor() method of the current image.\n" +
 							"Subsequently prompts for two colors and a range.");
+		System.out.println("'crop' -- Calls the crop() method of the current image.\n" +
+							"Crop the image as a squre at the center.");
 	}
 
 	//Tries to load an image file into a TheImage instance.

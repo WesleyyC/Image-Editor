@@ -1,8 +1,7 @@
 // This is a program that edits a picture.
 
 import java.awt.image.*;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*; // Image, Graphics2D Class.
 import javax.imageio.*;
 import java.io.*;
 
@@ -131,27 +130,38 @@ public class TheImage {
 		}
 	}
 
+	// Crop the image as a squre in the center.
 	public void crop(){
 		if(width<height){
+			im = cropImage(im, new Rectangle(0, (height-width)/2, width, width));
 			height = width;
 		}else{
+			im = cropImage(im, new Rectangle((width-height)/2, 0, height, height));
 			width = height;
 		}
-		im = resize(im, width, height);
 
-		System.out.println("Crop a square image.");
+		System.out.println("Cropped.");
 	}
 
-	public BufferedImage resize(BufferedImage im, int newW, int newH) {
-	    Image tmp = im.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-	    BufferedImage newIM = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-
-	    Graphics2D g2d = newIM.createGraphics();
-	    g2d.drawImage(tmp, 0, 0, null);
-	    g2d.dispose();
-
-	    return newIM;
+	// General subImage with a Rectangle object.
+	private BufferedImage cropImage(BufferedImage src, Rectangle rect) {
+		//x, y is the coordinate of the left-low corner of the subimage.
+		BufferedImage dest = src.getSubimage(rect.x, rect.y, rect.width, rect.height);
+		return dest;
 	}
+
+	// End up not using this as it only size from the left top corner.
+	// Leave it here for now.
+	// public BufferedImage resize(BufferedImage im, int newW, int newH) {
+	//     Image tmp = im.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+	//     BufferedImage newIM = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+	//
+	//     Graphics2D g2d = newIM.createGraphics();
+	//     g2d.drawImage(tmp, 0, 0, null);
+	//     g2d.dispose();
+	//
+	//     return newIM;
+	// }
 
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
 	//into a single integer for use with the BufferedImage class.
