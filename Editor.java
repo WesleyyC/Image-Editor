@@ -163,7 +163,8 @@ public class Editor {
 		InputStream in = null;
 
 		//get file path from user
-		File f = new File(console.next());
+		String tmp = console.next().toLowerCase();
+		File f = new File(tmp);
 
 		//initialize stream from file
 		try {
