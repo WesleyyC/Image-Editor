@@ -77,17 +77,18 @@ public class TheImage {
 
 	public void brighten()
 	{
-		for (int i = 0; i < pixelData.length; i++)
-		{
-			for (int j = 0; j < pixelData[i].length; j++)
-			{
-				pixelData[i][j][0] = (int) (pixelData[i][j][0] * 1.1);
-				pixelData[i][j][1] = (int) (pixelData[i][j][1] * 1.1);
-				pixelData[i][j][2] = (int) (pixelData[i][j][2] * 1.1);
-			}
-		}
+		RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
+		rescaleOp.filter(im, im);
 
-		System.out.println("Brighten 50%.");
+		System.out.println("Brighten.");
+
+		updatePixel();
+	}
+
+	private void updatePixel(){
+		packedData = im.getRGB(0, 0, width, height, null, 0, width);
+		pixelData = null; 	// Release memory first
+		unpackPixels();
 	}
 
 	// Replace the color in a certain range.
