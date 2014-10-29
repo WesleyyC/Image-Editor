@@ -68,7 +68,8 @@ public class Editor {
 				}
 			} else if (command.equals("brighten")) {
 				if (im1 != null) {
-					im1.brighten();
+					System.out.print("From 1-3, indicate the level of the brighten:  ");
+					im1.brighten(console.nextDouble());
 				} else {
 					System.out.println("No image loaded to crop.");
 				}
