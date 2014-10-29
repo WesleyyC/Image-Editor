@@ -113,6 +113,36 @@ public class TheImage {
 		return true;
 	}
 
+	// Crop the image as a squre in the center.
+	public void crop(){
+		if(width<height){
+			startY=(height-width)/2;
+			height = width;
+		}else{
+			startX=(width-height)/2;
+			width = height;
+		}
+
+		im = im.getSubimage(startX,startY, width, height);
+		updatePixel();
+
+		System.out.println("Cropped.");
+	}
+
+	// Brighten the function of different level.
+	public void brighten(double level)
+	{
+		RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
+
+		for(int i = 0; i < level; i++){
+			rescaleOp.filter(im, im);
+		}
+
+		updatePixel();
+
+		System.out.println("Brighten.");
+	}
+
 	//Uses bitwise operations to convert one integer into four channels,
 	//each with a range from 0 to 255.
 	public void unpackPixels() {
@@ -130,20 +160,13 @@ public class TheImage {
 		}
 	}
 
-	// Crop the image as a squre in the center.
-	public void crop(){
-		if(width<height){
-			startY=(height-width)/2;
-			height = width;
-		}else{
-			startX=(width-height)/2;
-			width = height;
-		}
-
-		im = im.getSubimage(startX,startY, width, height);
-
-		System.out.println("Cropped.");
+	// Update the pixel array when using some higher archy library
+	private void updatePixel(){
+		packedData = im.getRGB(0, 0, width, height, null, 0, width);
+		pixelData = null; 	// Release memory first
+		unpackPixels();
 	}
+
 
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
 	//into a single integer for use with the BufferedImage class.
@@ -151,9 +174,9 @@ public class TheImage {
 		System.out.println("putting pixel values in packed format...");
 
 		// Pack the data from the startX and startY coordinate
-		for (int row = startY; row < height+startY; row ++) {
-			for (int col = startX; col < width+startX; col ++) {
-				packedData[((row-startY) * width) + (col-startX)] = ((255 & 0xFF) << 24) | //alpha
+		for (int row = 0; row < height; row ++) {
+			for (int col = 0; col < width; col ++) {
+				packedData[((row) * width) + (col)] = ((255 & 0xFF) << 24) | //alpha
 	            ((pixelData[row][col][0] & 0xFF) << 16) | //red
 	            ((pixelData[row][col][1] & 0xFF) << 8)  | //green
 	            ((pixelData[row][col][2] & 0xFF) << 0); //blue
