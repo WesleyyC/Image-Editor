@@ -13,78 +13,74 @@ public class Editor {
 		System.out.println("           =====================================           ");
 		System.out.println();
 		System.out.println(">>>>>Type 'help' for usage information or, if you know how to use it, type your command at the prompt.<<<<<<<");
-        System.out.println("Enter command:");
-
-		Scanner console = new Scanner(System.in);
-		interact(console);
+		
+		interact();
 	}
 
 	//The main loop that reads user input and calls methods of the image
-	public static void interact(Scanner console) {
-		//The sole TheImage instance this program uses.
+	private static void interact() {
 		TheImage image = null;
-        
-		while (true) {
+		Scanner console = new Scanner(System.in);		
+		String command;
+		boolean hasQuit = false;
+		
+		while (image == null && !hasQuit) {
+			System.out.println("Enter command:");
+			command = console.nextLine().toLowerCase();
 			
-			String command = console.nextLine().toLowerCase();
-
-			if (command.equals("help")) {
-				displayHelp();
-			} else if (command.equals("load")) {
-				image = loadImage(console);
-				if (image == null) {
-					System.out.println("Image load failed.");
-				} else {
-					System.out.println("Image successfully loaded.");
-				}
-			} else if (command.equals("save")) {
-				if (image == null) {
-					System.out.println("No loaded image to write.");
-				} else {
+			switch (command) {
+				case "help":
+					displayHelp();
+					break;
+				case "load":
+					image = loadImage(console);
+					break;
+				case "quit":
+					System.out.println("Terminating.");
+					hasQuit = true;
+					break;
+				default:
+					System.out.println("Please load an image before proceeding to other commands. Type help if you need help.");
+					break;
+			}
+		}
+		
+		System.out.println("Image successfully loaded.");
+		
+		while (!hasQuit) {
+			System.out.println("Enter command:");
+			command = console.nextLine().toLowerCase();
+			
+			switch (command) {
+				case "help":
+					displayHelp();
+					break;
+				case "load":
+					image = loadImage(console);
+					break;
+				case "save":
 					System.out.println("Enter the file path where the image should be saved:");
 					if (image.writeImage(new File(console.nextLine()))) {
 						System.out.println("Image successfully saved.");
 					}
-				}
-			} else if (command.equals("quit")) {
-				System.out.println("Terminating.");
-				break;
-
-			//The rest of these clauses handle the operations
-			//that can be performed on an image
-			} else if (command.equals("flip-horiz")) {
-				if (image != null) {
+					break;
+				case "flip-horiz":
 					image.flipHorizontal();
-				} else {
-					System.out.println("No image loaded to flip.");
-				}
-			} else if (command.equals("brighten")) {
-				if (image != null) {
+					break;
+				case "brighten":
 					System.out.print("From 1-3, indicate the level of the brighten:  ");
 					image.brighten(console.nextDouble());
-				} else {
-					System.out.println("No image loaded to crop.");
-				}
-			} else if (command.equals("crop")) {
-				if (image != null) {
+					break;
+				case "crop":
 					image.crop();
-				} else {
-					System.out.println("No image loaded to crop.");
-				}
-			} else if (command.equals("flip-vert")) {
-				if (image != null) {
+					break;
+				case "flip-vert":
 					image.flipVertical();
-				} else {
-					System.out.println("No image loaded to flip.");
-				}
-			} else if (command.equals("invert")) {
-				if (image != null) {
+					break;
+				case "invert":
 					image.invert();
-				} else {
-					System.out.println("No image loaded to invert.");
-				}
-			} else if (command.equals("replace")) {
-				if (image != null) {
+					break;
+				case "replace":
 					//Get additional user input
 					System.out.println("Enter integers for the color to replace:");
 					int[] oldColor = getColor(console);
@@ -107,12 +103,14 @@ public class Editor {
 
 					//if program reaches this point, input is valid, so call replace
 					image.replaceColor(oldColor, newColor, range);
-
-				} else {
-					System.out.println("No image loaded to replace.");
-				}
-			} else {
-				System.out.println("command '" + command + "' not understood. Type 'help' for usage information.");
+					break;
+				case "quit":
+					System.out.println("Terminating.");
+					hasQuit = true;
+					break;
+				default:
+					System.out.println("command '" + command + "' not found. Type 'help' for usage information.");
+					break;					
 			}
 		}
 	}
@@ -185,6 +183,8 @@ public class Editor {
 		}
 
 		return new TheImage(bi);
+		
+		//Todo: Add println "Image load failed."
 
 	}
 
