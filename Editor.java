@@ -45,8 +45,6 @@ public class Editor {
 			}
 		}
 		
-		System.out.println("Image successfully loaded.");
-		
 		while (!hasQuit) {
 			System.out.println("Enter command:");
 			command = console.nextLine().toLowerCase();
@@ -185,6 +183,7 @@ public class Editor {
 		return new TheImage(bi);
 		
 		//Todo: Add println "Image load failed."
+		//Todo: add System.out.println("Image successfully loaded.");
 
 	}
 
