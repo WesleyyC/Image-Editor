@@ -47,7 +47,7 @@ public class Editor {
 					System.out.println("No loaded image to write.");
 				} else {
 					System.out.println("Enter the file path where the image should be saved:");
-					if (im1.writeImage(new File(console.nextLine().toLowerCase()))) {
+					if (im1.writeImage(new File(console.nextLine()))) {
 						System.out.println("Image successfully saved.");
 					}
 				}
@@ -163,7 +163,7 @@ public class Editor {
 		InputStream in = null;
 
 		//get file path from user
-		String tmp = console.next().toLowerCase();
+		String tmp = console.nextLine();
 		File f = new File(tmp);
 
 		//initialize stream from file
