@@ -12,7 +12,7 @@ public class Editor {
 		System.out.println("           Welcome to command line image editor.           ");
 		System.out.println("           =====================================           ");
 		System.out.println();
-		System.out.println(">>>>>Type 'help' for usage information or, if you know how to use it, type your command at the prompt.<<<<<<<");
+		System.out.println(">>>>>Type 'help' for usage information and 'load' for loading image.<<<<<<<");
 		
 		interact();
 	}
