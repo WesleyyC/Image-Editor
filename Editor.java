@@ -13,44 +13,36 @@ public class Editor {
 		System.out.println("           =====================================           ");
 		System.out.println();
 		System.out.println(">>>>>Type 'help' for usage information or, if you know how to use it, type your command at the prompt.<<<<<<<");
+        System.out.println("Enter command:");
 
-		//initialize scanner for all user interaction
 		Scanner console = new Scanner(System.in);
-
-		//enter primary loop
 		interact(console);
 	}
 
 	//The main loop that reads user input and calls methods of the image
 	public static void interact(Scanner console) {
 		//The sole TheImage instance this program uses.
-		TheImage im1 = null;
-
+		TheImage image = null;
+        
 		while (true) {
-			System.out.println("Enter command:");
-			//read user input as a string and convert to lower case
-			String command = console.next().toLowerCase();
-			//read extraneous input
-			console.nextLine();
+			
+			String command = console.nextLine().toLowerCase();
 
-			//This block of if / else-if statements controls the flow of the
-			//program based on user input. There are other ways to do this
-			//but for a project of this scale, if-statements are a decent option.
 			if (command.equals("help")) {
 				displayHelp();
 			} else if (command.equals("load")) {
-				im1 = loadImage(console);
-				if (im1 == null) {
+				image = loadImage(console);
+				if (image == null) {
 					System.out.println("Image load failed.");
 				} else {
 					System.out.println("Image successfully loaded.");
 				}
 			} else if (command.equals("save")) {
-				if (im1 == null) {
+				if (image == null) {
 					System.out.println("No loaded image to write.");
 				} else {
 					System.out.println("Enter the file path where the image should be saved:");
-					if (im1.writeImage(new File(console.nextLine()))) {
+					if (image.writeImage(new File(console.nextLine()))) {
 						System.out.println("Image successfully saved.");
 					}
 				}
@@ -61,38 +53,38 @@ public class Editor {
 			//The rest of these clauses handle the operations
 			//that can be performed on an image
 			} else if (command.equals("flip-horiz")) {
-				if (im1 != null) {
-					im1.flipHorizontal();
+				if (image != null) {
+					image.flipHorizontal();
 				} else {
 					System.out.println("No image loaded to flip.");
 				}
 			} else if (command.equals("brighten")) {
-				if (im1 != null) {
+				if (image != null) {
 					System.out.print("From 1-3, indicate the level of the brighten:  ");
-					im1.brighten(console.nextDouble());
+					image.brighten(console.nextDouble());
 				} else {
 					System.out.println("No image loaded to crop.");
 				}
 			} else if (command.equals("crop")) {
-				if (im1 != null) {
-					im1.crop();
+				if (image != null) {
+					image.crop();
 				} else {
 					System.out.println("No image loaded to crop.");
 				}
 			} else if (command.equals("flip-vert")) {
-				if (im1 != null) {
-					im1.flipVertical();
+				if (image != null) {
+					image.flipVertical();
 				} else {
 					System.out.println("No image loaded to flip.");
 				}
 			} else if (command.equals("invert")) {
-				if (im1 != null) {
-					im1.invert();
+				if (image != null) {
+					image.invert();
 				} else {
 					System.out.println("No image loaded to invert.");
 				}
 			} else if (command.equals("replace")) {
-				if (im1 != null) {
+				if (image != null) {
 					//Get additional user input
 					System.out.println("Enter integers for the color to replace:");
 					int[] oldColor = getColor(console);
@@ -114,7 +106,7 @@ public class Editor {
 					}
 
 					//if program reaches this point, input is valid, so call replace
-					im1.replaceColor(oldColor, newColor, range);
+					image.replaceColor(oldColor, newColor, range);
 
 				} else {
 					System.out.println("No image loaded to replace.");
