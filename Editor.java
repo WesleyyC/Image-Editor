@@ -7,9 +7,12 @@ public class Editor {
 	public static final String[] COLOR = {"Red", "Green", "Blue"};
 
 	public static void main(String[] args) {
+		System.out.println();
+		System.out.println("           =====================================           ");
 		System.out.println("           Welcome to command line image editor.           ");
 		System.out.println("           =====================================           ");
-		System.out.println("Type 'help' for usage information or, if you know how to use it, type your command at the prompt.");
+		System.out.println();
+		System.out.println(">>>>>Type 'help' for usage information or, if you know how to use it, type your command at the prompt.<<<<<<<");
 
 		//initialize scanner for all user interaction
 		Scanner console = new Scanner(System.in);
@@ -62,6 +65,12 @@ public class Editor {
 					im1.flipHorizontal();
 				} else {
 					System.out.println("No image loaded to flip.");
+				}
+			} else if (command.equals("brighten")) {
+				if (im1 != null) {
+					im1.brighten();
+				} else {
+					System.out.println("No image loaded to crop.");
 				}
 			} else if (command.equals("crop")) {
 				if (im1 != null) {

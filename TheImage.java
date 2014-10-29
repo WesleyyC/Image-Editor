@@ -75,6 +75,21 @@ public class TheImage {
 		System.out.println("Inverted.");
 	}
 
+	public void brighten()
+	{
+		for (int i = 0; i < pixelData.length; i++)
+		{
+			for (int j = 0; j < pixelData[i].length; j++)
+			{
+				pixelData[i][j][0] = (int) (pixelData[i][j][0] * 1.1);
+				pixelData[i][j][1] = (int) (pixelData[i][j][1] * 1.1);
+				pixelData[i][j][2] = (int) (pixelData[i][j][2] * 1.1);
+			}
+		}
+
+		System.out.println("Brighten 50%.");
+	}
+
 	// Replace the color in a certain range.
 	public void replaceColor(int[] oldColor, int[] newColor, int range)
 	{
