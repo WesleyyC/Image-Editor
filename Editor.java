@@ -26,7 +26,7 @@ public class Editor {
 		
 		while (image == null && !hasQuit) {
 			System.out.println("Enter command:");
-			command = console.nextLine().toLowerCase();
+			command = console.nextLine().toLowerCase().trim();
 			
 			switch (command) {
 				case "help":
@@ -47,7 +47,7 @@ public class Editor {
 		
 		while (!hasQuit) {
 			System.out.println("Enter command:");
-			command = console.nextLine().toLowerCase();
+			command = console.nextLine().toLowerCase().trim();
 			
 			switch (command) {
 				case "help":
@@ -161,7 +161,7 @@ public class Editor {
 		InputStream in = null;
 
 		//get file path from user
-		String tmp = console.nextLine();
+		String tmp = console.nextLine().trim();
 		File f = new File(tmp);
 
 		//initialize stream from file
