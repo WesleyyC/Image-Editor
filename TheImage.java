@@ -100,10 +100,10 @@ public class TheImage {
 	//the ImageIO class.
 	public boolean writeImage(String savePath) {
 		if (savePath == null) {
-			savePath = sourceImg.getParent() + "/edited-" + sourceImg.getName(); 
+			savePath = sourceImg.getParent() + "/edited-" + sourceImg.getName();
 		}
 		File saveImg = new File(savePath);
-		
+
 		//put pixelData into packedData
 		packPixels();
 
@@ -123,7 +123,7 @@ public class TheImage {
 		return true;
 	}
 
-	// Crop the image as a squre in the center.
+	// Crop the image as a squre in the	 center.
 	public void crop(){
 		if(width<height){
 			startY=(height-width)/2;
@@ -142,11 +142,12 @@ public class TheImage {
 	// Brighten the function of different level.
 	public void brighten(double level)
 	{
-		RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
+		double factor = 1.17 + level*0.03;
+		double onset = 12 + 3*level;
 
-		for(int i = 0; i < level; i++){
-			rescaleOp.filter(im, im);
-		}
+		RescaleOp rescaleOp = new RescaleOp((float)factor, (int)onset, null);
+
+		rescaleOp.filter(im, im);
 
 		updatePixel();
 
