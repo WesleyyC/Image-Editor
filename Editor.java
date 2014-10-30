@@ -165,22 +165,23 @@ public class Editor {
 		String tmp = console.nextLine().trim();
 		File f = new File(tmp);
 
-		//initialize stream from file
 		try {
+			//initialize stream from file
 			in = new FileInputStream(f);
+
+			//read stream into BufferedImage
+			bi = ImageIO.read(in);
+
 		} catch (FileNotFoundException e) {
 			System.out.println("Couldn't find file " + f.getAbsolutePath());
-			return null;
-		}
-
-		//read stream into BufferedImage
-		try {
-			bi = ImageIO.read(in);
+			System.out.println("Please make sure your pet does not eat it.");
+			return loadImage();
 		} catch (IOException e) {
-			System.out.println("Failed to read FileInputStream.");
+			System.out.println("Image load failed.");
 			return null;
 		}
 
+		System.out.println("Image successfully loaded.");
 		return new TheImage(bi, f);
 
 		//Todo: Add println "Image load failed."
