@@ -4,7 +4,7 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Editor {
-	public static final String[] COLOR = {"Red", "Green", "Blue"};
+	private static final String[] COLOR = {"Red", "Green", "Blue"};
 	private static Scanner console;
 	private static TheImage image;
 
@@ -66,7 +66,7 @@ public class Editor {
 					break;
 				case "brighten":
 					System.out.print("From 1-3, indicate the level of the brighten:  ");
-					image.brighten(Double.parseDouble(console.nextLine()));
+					image.brighten(doubleInput());
 					break;
 				case "crop":
 					image.crop();
@@ -115,7 +115,7 @@ public class Editor {
 
 	//Reads in three integer values representing the red, green, and blue
 	//channels of a color. Also does error checking to keep values between 0 and 255.
-	public static int[] getColor() {
+	private static int[] getColor() {
 		int[] rgb = new int[3];
 		for (int i = 0; i < 3; i ++) {
 			System.out.println(COLOR[i] + " (0 - 255):");
@@ -134,7 +134,7 @@ public class Editor {
 	}
 
 	//Prints usage information for this program.
-	public static void displayHelp() {
+	private static void displayHelp() {
 		System.out.println("Usage:");
 		System.out.println("'help' -- Displays this list of commands.");
 		System.out.println("'quit' -- Causes the program to terminate.");
@@ -152,7 +152,7 @@ public class Editor {
 
 	//Tries to load an image file into a TheImage instance.
 	//Returns null if load fails.
-	public static TheImage loadImage() {
+	private static TheImage loadImage() {
 		//load file
 		System.out.println("Enter the name of the file you wish to load:");
 
@@ -183,6 +183,24 @@ public class Editor {
 
 		//Todo: Add println "Image load failed."
 		//Todo: add System.out.println("Image successfully loaded.");
+
+	}
+
+	public static double doubleInput(){
+		double number;
+
+		try{
+			number = Double.parseDouble(console.nextLine());
+			if(number >=1 && number <=3){
+				return number;
+			}else{
+				System.out.print("Sorry. The level has to be between 1-3, but it can has decimal: ");
+				return doubleInput();
+			}
+		} catch(NumberFormatException e){
+			System.out.print("Sorry. Please input a number between 1-3: ");
+			return doubleInput();
+		}
 
 	}
 
