@@ -15,7 +15,7 @@ public class Editor {
 		System.out.println("           =====================================           ");
 		System.out.println();
 		System.out.println(">>>>>Type 'help' for usage information and 'load' for loading image.<<<<<<<");
-		
+
 		console = new Scanner(System.in);
 		interact();
 	}
@@ -25,11 +25,11 @@ public class Editor {
 		image = null;
 		String command;
 		boolean hasQuit = false;
-		
+
 		while (image == null && !hasQuit) {
 			System.out.println("Enter command:");
 			command = console.nextLine().toLowerCase().trim();
-			
+
 			switch (command) {
 				case "help":
 					displayHelp();
@@ -46,11 +46,11 @@ public class Editor {
 					break;
 			}
 		}
-		
+
 		while (!hasQuit) {
 			System.out.println("Enter command:");
 			command = console.nextLine().toLowerCase().trim();
-			
+
 			switch (command) {
 				case "help":
 					displayHelp();
@@ -66,7 +66,7 @@ public class Editor {
 					break;
 				case "brighten":
 					System.out.print("From 1-3, indicate the level of the brighten:  ");
-					image.brighten(console.nextDouble());
+					image.brighten(Double.parseDouble(console.nextLine()));
 					break;
 				case "crop":
 					image.crop();
@@ -107,7 +107,7 @@ public class Editor {
 					break;
 				default:
 					System.out.println("command '" + command + "' not found. Type 'help' for usage information.");
-					break;					
+					break;
 			}
 		}
 	}
@@ -180,17 +180,17 @@ public class Editor {
 		}
 
 		return new TheImage(bi, f);
-		
+
 		//Todo: Add println "Image load failed."
 		//Todo: add System.out.println("Image successfully loaded.");
 
 	}
-	
+
 	private static void saveImageHelper() {
 		System.out.println("Would you like to save under the same directory as the source image? y/n");
 		String saveOption = console.nextLine().toLowerCase();
 		boolean saveResult;
-		
+
 		switch (saveOption) {
 			case "y":
 				saveResult = image.writeImage(null);
@@ -204,7 +204,7 @@ public class Editor {
 				saveResult = false;
 				break;
 		}
-				
+
 		if (saveResult == true) {
 			System.out.println("Image successfully saved.");
 		} else {
