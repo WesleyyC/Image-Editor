@@ -148,6 +148,8 @@ public class Editor {
 							"Subsequently prompts for two colors and a range.");
 		System.out.println("'crop' -- Calls the crop() method of the current image.\n" +
 							"Crop the image as a squre at the center.");
+		System.out.println("'brighten' -- Calls the brighten() method of the current image.\n" +
+							"Subsequently prompts for the increase level from 1-3.");
 	}
 
 	//Tries to load an image file into a TheImage instance.
