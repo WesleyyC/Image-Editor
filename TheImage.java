@@ -6,17 +6,19 @@ import java.io.*;
 
 public class TheImage {
 
-	public BufferedImage im = null;
-	public int[] packedData = null;
-	public int[][][] pixelData = null; 	// Unit be modified.
-	public int height = 0;
-	public int width = 0;
-	public int startX = 0;
-	public int startY = 0;
+	private BufferedImage im = null;
+	private File sourceImg = null;
+	private int[] packedData = null;
+	private int[][][] pixelData = null; 	// Unit be modified.
+	private int height = 0;
+	private int width = 0;
+	private int startX = 0;
+	private int startY = 0;
 
 	// Constructor.
-	public TheImage (BufferedImage image) {
-		im = image;
+	public TheImage (BufferedImage image, File sourceImg) {
+		this.im = image;
+		this.sourceImg = sourceImg;
 		height = im.getHeight();
 		width = im.getWidth();
 		System.out.println(width);
@@ -96,7 +98,12 @@ public class TheImage {
 	//Writes the current data in pixelData to a .png image by first packing
 	//the data into a 1D array of ints, then calling the write() method of
 	//the ImageIO class.
-	public boolean writeImage(File file) {
+	public boolean writeImage(String savePath) {
+		if (savePath == null) {
+			savePath = sourceImg.getParent() + "/edited-" + sourceImg.getName(); 
+		}
+		File saveImg = new File(savePath);
+		
 		//put pixelData into packedData
 		packPixels();
 
@@ -105,9 +112,12 @@ public class TheImage {
 		im.setRGB(0, 0, width, height, packedData, 0, width);
 
 		try{
-			ImageIO.write(im, "jpg", file);
+			ImageIO.write(im, "jpg", saveImg);
 		} catch (IOException e) {
 			System.out.println("Writing image failed.");
+			return false;
+		} catch (Exception e) {
+			System.out.println("Exception thrown, writing image failed.");
 			return false;
 		}
 		return true;

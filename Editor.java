@@ -5,6 +5,8 @@ import java.io.*;
 
 public class Editor {
 	public static final String[] COLOR = {"Red", "Green", "Blue"};
+	private static Scanner console;
+	private static TheImage image;
 
 	public static void main(String[] args) {
 		System.out.println();
@@ -14,13 +16,13 @@ public class Editor {
 		System.out.println();
 		System.out.println(">>>>>Type 'help' for usage information and 'load' for loading image.<<<<<<<");
 		
+		console = new Scanner(System.in);
 		interact();
 	}
 
 	//The main loop that reads user input and calls methods of the image
 	private static void interact() {
-		TheImage image = null;
-		Scanner console = new Scanner(System.in);		
+		image = null;
 		String command;
 		boolean hasQuit = false;
 		
@@ -33,7 +35,7 @@ public class Editor {
 					displayHelp();
 					break;
 				case "load":
-					image = loadImage(console);
+					image = loadImage();
 					break;
 				case "quit":
 					System.out.println("Terminating.");
@@ -54,13 +56,10 @@ public class Editor {
 					displayHelp();
 					break;
 				case "load":
-					image = loadImage(console);
+					image = loadImage();
 					break;
 				case "save":
-					System.out.println("Enter the file path where the image should be saved:");
-					if (image.writeImage(new File(console.nextLine()))) {
-						System.out.println("Image successfully saved.");
-					}
+					saveImageHelper();
 					break;
 				case "flip-horiz":
 					image.flipHorizontal();
@@ -81,12 +80,12 @@ public class Editor {
 				case "replace":
 					//Get additional user input
 					System.out.println("Enter integers for the color to replace:");
-					int[] oldColor = getColor(console);
+					int[] oldColor = getColor();
 					if (oldColor == null) {
 						continue;
 					}
 					System.out.println("Enter integers for the new color:");
-					int[] newColor = getColor(console);
+					int[] newColor = getColor();
 					if (newColor == null) {
 						continue;
 					}
@@ -116,7 +115,7 @@ public class Editor {
 
 	//Reads in three integer values representing the red, green, and blue
 	//channels of a color. Also does error checking to keep values between 0 and 255.
-	public static int[] getColor(Scanner console) {
+	public static int[] getColor() {
 		int[] rgb = new int[3];
 		for (int i = 0; i < 3; i ++) {
 			System.out.println(COLOR[i] + " (0 - 255):");
@@ -153,7 +152,7 @@ public class Editor {
 
 	//Tries to load an image file into a TheImage instance.
 	//Returns null if load fails.
-	public static TheImage loadImage(Scanner console) {
+	public static TheImage loadImage() {
 		//load file
 		System.out.println("Enter the name of the file you wish to load:");
 
@@ -180,11 +179,37 @@ public class Editor {
 			return null;
 		}
 
-		return new TheImage(bi);
+		return new TheImage(bi, f);
 		
 		//Todo: Add println "Image load failed."
 		//Todo: add System.out.println("Image successfully loaded.");
 
+	}
+	
+	private static void saveImageHelper() {
+		System.out.println("Would you like to save under the same directory as the source image? y/n");
+		String saveOption = console.nextLine().toLowerCase();
+		boolean saveResult;
+		
+		switch (saveOption) {
+			case "y":
+				saveResult = image.writeImage(null);
+				break;
+			case "n":
+				System.out.println("Please enter a FILE PATH that you would like to save image to");
+				saveResult = image.writeImage(console.nextLine().trim());
+				break;
+			default:
+				System.out.println("Sorry, we do not understand your input. Aborting save.");
+				saveResult = false;
+				break;
+		}
+				
+		if (saveResult == true) {
+			System.out.println("Image successfully saved.");
+		} else {
+			System.out.println("Image saving failed.");
+		}
 	}
 
 }
