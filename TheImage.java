@@ -99,7 +99,7 @@ public class TheImage {
 	//the data into a 1D array of ints, then calling the write() method of
 	//the ImageIO class.
 	public boolean writeImage(String savePath) {
-		if (savePath == null) {
+		if (savePath.isEmpty()) {
 			savePath = sourceImg.getParent() + "/edited-" + sourceImg.getName();
 		}
 		File saveImg = new File(savePath);
@@ -114,12 +114,13 @@ public class TheImage {
 		try{
 			ImageIO.write(im, "jpg", saveImg);
 		} catch (IOException e) {
-			System.out.println("Writing image failed.");
+			System.out.println("IO exception encountered. Please ensure your file path is valid");
 			return false;
 		} catch (Exception e) {
-			System.out.println("Exception thrown, writing image failed.");
+			System.out.println("Exception:" + e.toString());
 			return false;
 		}
+
 		return true;
 	}
 

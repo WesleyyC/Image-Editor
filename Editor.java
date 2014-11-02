@@ -174,7 +174,7 @@ public class Editor {
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Couldn't find file " + f.getAbsolutePath());
-			System.out.println("Please make sure your pet does not eat it.");
+			System.out.println("Please make sure your pet did not eat it.");
 			return loadImage();
 		} catch (IOException e) {
 			System.out.println("Image load failed.");
@@ -208,23 +208,10 @@ public class Editor {
 	}
 
 	private static void saveImageHelper() {
-		System.out.println("Would you like to save under the same directory as the source image? y/n");
-		String saveOption = console.nextLine().toLowerCase();
-		boolean saveResult;
+		System.out.println("Type in the file path where you wish to save your image. \nSimply hit 'Enter' with empty input to save under the same directory of the source image.");
+		String savePath = console.nextLine().trim();
 
-		switch (saveOption) {
-			case "y":
-				saveResult = image.writeImage(null);
-				break;
-			case "n":
-				System.out.println("Please enter a FILE PATH that you would like to save image to");
-				saveResult = image.writeImage(console.nextLine().trim());
-				break;
-			default:
-				System.out.println("Sorry, we do not understand your input. Aborting save.");
-				saveResult = false;
-				break;
-		}
+		boolean saveResult = image.writeImage(savePath);
 
 		if (saveResult == true) {
 			System.out.println("Image successfully saved.");
