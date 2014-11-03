@@ -111,8 +111,9 @@ public class TheImage {
 		//bi.setRGB(startX, startY, w, h, rgbArray, offset, scansize)
 		im.setRGB(0, 0, width, height, packedData, 0, width);
 
+		// sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1) is the format of the sourceImg.
 		try{
-			ImageIO.write(im, "jpg", saveImg);
+			ImageIO.write(im, sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1), saveImg);
 		} catch (IOException e) {
 			System.out.println("IO exception encountered. Please ensure your file path is valid");
 			return false;
