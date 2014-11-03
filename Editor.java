@@ -198,10 +198,14 @@ public class Editor {
 				return number;
 			}else{
 				System.out.print("Sorry. The level has to be between 1-3, but it can has decimal: ");
+				// Use a recursive function instead of a loop to simplify.
+				// Do not reuse the code on mobile device.
 				return doubleInput();
 			}
 		} catch(NumberFormatException e){
 			System.out.print("Sorry. Please input a number between 1-3: ");
+			// Use a recursive function instead of a loop to simplify.
+			// Do not reuse the code on mobile device.
 			return doubleInput();
 		}
 
