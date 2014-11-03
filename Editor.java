@@ -155,31 +155,39 @@ public class Editor {
 	//Tries to load an image file into a TheImage instance.
 	//Returns null if load fails.
 	private static TheImage loadImage() {
-		String sourcePath = null;
-		File sourceFile = null;
-		BufferedImage bi = null;
-		boolean successful = false;
-		
-		while (!successful) {
-			System.out.println("Enter the name of the file you wish to load:");
-			sourcePath = console.nextLine().trim();
-			sourceFile = new File(sourcePath);
+		//load file
+		System.out.println("Enter the name of the file you wish to load:");
 
-			try(InputStream in = new FileInputStream(sourceFile)){
-				//read stream into BufferedImage
-				bi = ImageIO.read(in);
-				successful = true;
-			} catch (FileNotFoundException e) {
-				System.out.println("Could not find the image " + sourceFile.getAbsolutePath());
-				System.out.println("Please make sure your pet did not eat it.");
-			} catch (IOException e) {
-				System.out.println("An error occured when reading the image, please try again");
-			}
-		} // end while
-			
+		BufferedImage bi = null;
+		InputStream in = null;
+
+		//get file path from user
+		String tmp = console.nextLine().trim();
+		File f = new File(tmp);
+
+		try {
+			//initialize stream from file
+			in = new FileInputStream(f);
+
+			//read stream into BufferedImage
+			bi = ImageIO.read(in);
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Couldn't find file " + f.getAbsolutePath());
+			System.out.println("Please make sure your pet did not eat it.");
+			return loadImage();
+		} catch (IOException e) {
+			System.out.println("Image load failed.");
+			return null;
+		}
+
 		System.out.println("Image successfully loaded.");
-		return new TheImage(bi, sourceFile);
-	} // end loadImage
+		return new TheImage(bi, f);
+
+		//Todo: Add println "Image load failed."
+		//Todo: add System.out.println("Image successfully loaded.");
+
+	}
 
 	public static double doubleInput(){
 		double number;
