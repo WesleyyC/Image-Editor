@@ -6,7 +6,7 @@ An image editor in terminal interface written in Java with flipping and cropping
 Craft with Java and use library including java.awt.image and javax.imageio
 
 Run Image Editor:
-Please ensure you have install Java with version 7 or above.
+Please ensure you have installed Java with version 7 or above.
 
 Feature to be added:
 - Change color tone of the image.
