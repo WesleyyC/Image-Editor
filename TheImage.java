@@ -110,10 +110,10 @@ public class TheImage {
 		//Write new packed array back into BufferedImage
 		//bi.setRGB(startX, startY, w, h, rgbArray, offset, scansize)
 		im.setRGB(0, 0, width, height, packedData, 0, width);
-
-		// sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1) is the format of the sourceImg.
+s
+		// sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1).toLowerCase().trim() is the format of the sourceImg.
 		try{
-			ImageIO.write(im, sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1), saveImg);
+			ImageIO.write(im, sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1).toLowerCase().trim(), saveImg);
 		} catch (IOException e) {
 			System.out.println("IO exception encountered. Please ensure your file path is valid");
 			return false;
