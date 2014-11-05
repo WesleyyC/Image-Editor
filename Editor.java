@@ -226,16 +226,17 @@ public class Editor {
 	}
 
 	private static void saveImageHelper() {
-		System.out.println("Type in the file path where you wish to save your image. \nSimply hit 'Enter' with empty input to save under the same directory of the source image.");
-		String savePath = console.nextLine().trim();
+		boolean hasSaved = false;
 
-		boolean saveResult = image.writeImage(savePath);
+		while (!hasSaved) {
+			System.out.println("Type in the file path where you wish to save your image.");
+			System.out.println("Simply hit 'Enter' with empty input to save under the same directory of the source image.");
+			String savePath = console.nextLine().trim();
 
-		if (saveResult == true) {
-			System.out.println("Image successfully saved.");
-		} else {
-			System.out.println("Image saving failed.");
-		}
-	}
+			hasSaved = image.writeImage(savePath);
+		} // end while
+
+		System.out.println("Image successfully saved.");
+	} // end saveImageHelper
 
 }
