@@ -98,11 +98,24 @@ public class TheImage {
 	//Writes the current data in pixelData to a .png image by first packing
 	//the data into a 1D array of ints, then calling the write() method of
 	//the ImageIO class.
-	public boolean writeImage(String savePath) {
-		if (savePath.isEmpty()) {
-			savePath = sourceImg.getParent() + "/edited-" + sourceImg.getName();
+	public boolean writeImage(String directoryPath) {
+		if (directoryPath.isEmpty()) {
+			directoryPath = sourceImg.getParent();
+		} else {
+			File directory = new File(directoryPath);
+			try {
+				if (!directory.isDirectory()) {
+				System.out.println("The path you typed in was not a valid directory path. Please try again.");
+				return false;
+				}
+			} catch(SecurityException e) {
+				System.out.println("You don't have access to this directory. Please try another location.");
+				return false;
+			}
+			
 		}
-		File saveImg = new File(savePath);
+
+		File saveImg = new File(directoryPath + "/edited-" + sourceImg.getName());
 
 		//put pixelData into packedData
 		packPixels();
@@ -115,10 +128,7 @@ public class TheImage {
 		try{
 			ImageIO.write(im, sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.')+1).toLowerCase().trim(), saveImg);
 		} catch (IOException e) {
-			System.out.println("IO exception encountered. Please ensure your file path is valid");
-			return false;
-		} catch (Exception e) {
-			System.out.println("Exception:" + e.toString());
+			System.out.println("Something went wrong when attempting to save the edited image. Please try again.");
 			return false;
 		}
 

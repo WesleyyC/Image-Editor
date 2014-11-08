@@ -229,7 +229,7 @@ public class Editor {
 		boolean hasSaved = false;
 
 		while (!hasSaved) {
-			System.out.println("Type in the file path where you wish to save your image.");
+			System.out.println("Type in the directory path where you wish to save your image.");
 			System.out.println("Simply hit 'Enter' with empty input to save under the same directory of the source image.");
 			String savePath = console.nextLine().trim();
 
