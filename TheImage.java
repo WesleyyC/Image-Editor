@@ -12,6 +12,7 @@ public class TheImage {
 	private int[][][] pixelData = null; 	// Unit be modified.
 	private int height = 0;
 	private int width = 0;
+	private String label = null;
 
 	// Constructor.
 	public TheImage (BufferedImage image, File sourceImg) {
@@ -24,6 +25,7 @@ public class TheImage {
 
 		System.out.println("Getting pixel values from packed data...");
 		unpackPixels();
+		label = "";
 	}
 
 	// Flip the picture horizontally.
@@ -40,6 +42,7 @@ public class TheImage {
 			}
 		}
 
+		label += "flipHorz-";
 		System.out.println("Flipped Horizontally.");
 	}
 
@@ -57,6 +60,7 @@ public class TheImage {
 			}
 		}
 
+		label += "flipVert-";
 		System.out.println("Flipped Vertically.");
 	}
 
@@ -73,6 +77,7 @@ public class TheImage {
 			}
 		}
 
+		label += "invert-";
 		System.out.println("Inverted.");
 	}
 
@@ -95,6 +100,7 @@ public class TheImage {
 			}
 		}
 
+		label += "replaceColr-";
 		System.out.println("Replaced color");
 	}
 
@@ -117,7 +123,7 @@ public class TheImage {
 			}
 		}
 
-		File saveImg = new File(directoryPath + "/edited-" + sourceImg.getName());
+		File saveImg = new File(directoryPath + "/" + label + sourceImg.getName());
 		//get the format of the source image by looking at its extension
 		String format = sourceImg.getName().substring(sourceImg.getName().lastIndexOf('.') + 1).toLowerCase();
 
@@ -153,6 +159,7 @@ public class TheImage {
 		im = im.getSubimage(startX, startY, sideLength, sideLength);
 		updateImage();
 
+		label += "crop";
 		System.out.println("Cropped.");
 	}
 
@@ -170,6 +177,7 @@ public class TheImage {
 
 		updateImage();
 
+		label += "brighten";
 		System.out.println("Brightened.");
 	}
 
