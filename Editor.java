@@ -54,6 +54,7 @@ public class Editor {
 				case "quit":
 					System.out.println("Terminating.");
 					hasQuit = true;
+					console.close();
 					break;
 				default:
 					System.out.println("Please load an image before proceeding to other commands. Type help if you need help.");
@@ -116,6 +117,7 @@ public class Editor {
 				case "quit":
 					System.out.println("Terminating.");
 					hasQuit = true;
+					console.close();
 					break;
 				default:
 					System.out.println("command '" + command + "' not found. Type 'help' for usage information.");
@@ -178,23 +180,17 @@ public class Editor {
 	private static TheImage loadImage() {
 		//load file
 		System.out.println("Enter the name of the file you wish to load:");
-
-		BufferedImage bi = null;
-		InputStream in = null;
-
 		//get file path from user
-		String tmp = console.nextLine().trim();
-		File f = new File(tmp);
+		String filePath = console.nextLine().trim();
+		File sourceFile = new File(filePath);
+		BufferedImage bi = null;
 
-		try {
-			//initialize stream from file
-			in = new FileInputStream(f);
-
+		try(InputStream in = new FileInputStream(sourceFile)){
 			//read stream into BufferedImage
 			bi = ImageIO.read(in);
 
 		} catch (FileNotFoundException e) {
-			System.out.println("Couldn't find file " + f.getAbsolutePath());
+			System.out.println("Couldn't find file " + sourceFile.getAbsolutePath());
 			System.out.println("Please make sure your pet did not eat it.");
 			return loadImage();
 		} catch (IOException e) {
@@ -203,7 +199,7 @@ public class Editor {
 		}
 
 		System.out.println("Image successfully loaded.");
-		return new TheImage(bi, f);
+		return new TheImage(bi, sourceFile);
 	}
 
 	public static double doubleInput(){
