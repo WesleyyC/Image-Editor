@@ -95,24 +95,19 @@ public class Editor {
 					//Get additional user input
 					System.out.println("Enter integers for the color to replace:");
 					int[] oldColor = getColor();
-					if (oldColor == null) {
-						continue;
-					}
+		
 					System.out.println("Enter integers for the new color:");
 					int[] newColor = getColor();
-					if (newColor == null) {
-						continue;
-					}
+					
 					System.out.println("Enter an integer specifying how large a range of colors to replace:");
-					int range;
-					try {
-						range = console.nextInt();
-					} catch (InputMismatchException e) {
-						System.out.println("Input was not a valid input type for range");
-						continue;
+
+					while (!console.hasNextInt()) {
+						console.next();
+						System.out.println("Input was not a valid input type for range. Try again.");
+						System.out.println("Enter an integer specifying how large a range of colors to replace:");
 					}
 
-					//if program reaches this point, input is valid, so call replace
+					int range = console.nextInt();
 					image.replaceColor(oldColor, newColor, range);
 					break;
 				case "quit":
@@ -132,18 +127,27 @@ public class Editor {
 	private static int[] getColor() {
 		int[] rgb = new int[3];
 		for (int i = 0; i < 3; i ++) {
-			System.out.println(COLOR[i] + " (0 - 255):");
-			try {
-				rgb[i] = console.nextInt();
-				if (rgb[i] < 0 || rgb[i] > 255) {
-					System.out.println("Input out of range 0 - 255");
-					return null;
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Inproper input type.");
-				return null;
-			}
-		}
+			boolean isValid = false;
+
+			while(!isValid) {
+				System.out.println(COLOR[i] + " (0 - 255):");
+				
+				if (console.hasNextInt()) {
+					rgb[i] = console.nextInt();
+
+					if (rgb[i] < 0 || rgb[i] > 255) {
+						System.out.println("Input out of range 0 - 255, try again.");
+					} else {
+						isValid = true;
+					}
+				} else {
+					//skip the garbage in the console
+					console.next();
+					System.out.println("Improper input type. Try again.");
+				}	
+			} // end while loop 
+		} // end for loop
+		
 		return rgb;
 	}
 
@@ -197,10 +201,6 @@ public class Editor {
 
 		System.out.println("Image successfully loaded.");
 		return new TheImage(bi, f);
-
-		//Todo: Add println "Image load failed."
-		//Todo: add System.out.println("Image successfully loaded.");
-
 	}
 
 	public static double doubleInput(){
