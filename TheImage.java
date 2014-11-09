@@ -12,8 +12,6 @@ public class TheImage {
 	private int[][][] pixelData = null; 	// Unit be modified.
 	private int height = 0;
 	private int width = 0;
-	private int startX = 0;
-	private int startY = 0;
 
 	// Constructor.
 	public TheImage (BufferedImage image, File sourceImg) {
@@ -23,7 +21,8 @@ public class TheImage {
 		width = im.getWidth();
 		System.out.println(width);
 		System.out.println(height);
-		packedData = im.getRGB(0, 0, width, height, null, 0, width);
+
+		System.out.println("Getting pixel values from packed data...");
 		unpackPixels();
 	}
 
@@ -140,16 +139,19 @@ public class TheImage {
 
 	// Crop the image as a square in the center.
 	public void crop(){
+		int startX = 0;
+		int startY = 0;
+		int sideLength;
 		if(width < height){
 			startY = (height - width) / 2;
-			height = width;
+			sideLength = width;
 		}else{
 			startX = (width - height) / 2;
-			width = height;
+			sideLength = height;
 		}
 
-		im = im.getSubimage(startX, startY, width, height);
-		updatePixel();
+		im = im.getSubimage(startX, startY, sideLength, sideLength);
+		updateImage();
 
 		System.out.println("Cropped.");
 	}
@@ -166,7 +168,7 @@ public class TheImage {
 
 		rescaleOp.filter(im, im);
 
-		updatePixel();
+		updateImage();
 
 		System.out.println("Brightened.");
 	}
@@ -174,7 +176,7 @@ public class TheImage {
 	//Uses bitwise operations to convert one integer into four channels,
 	//each with a range from 0 to 255.
 	public void unpackPixels() {
-		System.out.println("Getting pixel values from packed data...");
+		packedData = im.getRGB(0, 0, width, height, null, 0, width);
 
 		//This is a rows x columns array. That is, it is an array of rows.
 		pixelData = new int[height][width][3];
@@ -188,13 +190,12 @@ public class TheImage {
 		}
 	}
 
-	// Update the pixel array when using some higher archy library
-	private void updatePixel(){
-		packedData = im.getRGB(0, 0, width, height, null, 0, width);
-		pixelData = null; 	// Release memory first
+	// Called whenever buffered image is changed by external library
+	private void updateImage(){
+		height = im.getHeight();
+		width = im.getWidth();
 		unpackPixels();
 	}
-
 
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
 	//into a single integer for use with the BufferedImage class.
