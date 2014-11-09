@@ -84,8 +84,12 @@ public class TheImage {
 		{
 			for (int j = 0; j < pixelData[i].length; j++)
 			{
+				boolean isRedIn = Math.abs( pixelData[i][j][0] - oldColor[0] ) < range;
+				boolean isGreenIn = Math.abs(pixelData[i][j][1] - oldColor[1]) < range;
+				boolean isBlueIn = Math.abs(pixelData[i][j][2] - oldColor[2]) < range;
+
 				// Every channel needs to be in the range.
-				if (oldColor[0] - range < pixelData[i][j][0] && pixelData[i][j][0] < oldColor[0] + range && oldColor[1] - range < pixelData[i][j][1] && pixelData[i][j][1] < oldColor[1] + range && oldColor[2] - range < pixelData[i][j][2] && pixelData[i][j][2] < oldColor[2] + range)
+				if ( isRedIn && isGreenIn && isBlueIn)
 				{
 					pixelData[i][j] = newColor;
 				}
@@ -95,24 +99,23 @@ public class TheImage {
 		System.out.println("Replaced color");
 	}
 
-	//Writes the current data in pixelData to a .png image by first packing
-	//the data into a 1D array of ints, then calling the write() method of
-	//the ImageIO class.
+	//Writes the current buffered image to a new image file 
+	//First pack the pixelData into a 1D array of ints, then call the write() method in the ImageIO class.
 	public boolean writeImage(String directoryPath) {
+		//Validate and prepare file path to write image to
 		if (directoryPath.isEmpty()) {
 			directoryPath = sourceImg.getParent();
 		} else {
 			File directory = new File(directoryPath);
 			try {
 				if (!directory.isDirectory()) {
-				System.out.println("The path you typed in was not a valid directory path. Please try again.");
-				return false;
+					System.out.println("The path you typed in was not a valid directory path. Please try again.");
+					return false;
 				}
 			} catch(SecurityException e) {
 				System.out.println("You don't have access to this directory. Please try another location.");
 				return false;
 			}
-			
 		}
 
 		File saveImg = new File(directoryPath + "/edited-" + sourceImg.getName());
@@ -121,7 +124,6 @@ public class TheImage {
 
 		//put pixelData into packedData
 		packPixels();
-
 		//Write new packed array back into BufferedImage
 		//bi.setRGB(startX, startY, w, h, rgbArray, offset, scansize)
 		im.setRGB(0, 0, width, height, packedData, 0, width);
@@ -136,17 +138,17 @@ public class TheImage {
 		return true;
 	}
 
-	// Crop the image as a squre in the	 center.
+	// Crop the image as a square in the center.
 	public void crop(){
-		if(width<height){
-			startY=(height-width)/2;
+		if(width < height){
+			startY = (height - width) / 2;
 			height = width;
 		}else{
-			startX=(width-height)/2;
+			startX = (width - height) / 2;
 			width = height;
 		}
 
-		im = im.getSubimage(startX,startY, width, height);
+		im = im.getSubimage(startX, startY, width, height);
 		updatePixel();
 
 		System.out.println("Cropped.");
@@ -155,8 +157,10 @@ public class TheImage {
 	// Brighten the function of different level.
 	public void brighten(double level)
 	{
-		double factor = 1.17 + level*0.03;
-		double onset = 12 + 3*level;
+		//unreadable code: magic number
+		//Dear Wesley, would you please make these numbers constants in the class?
+		double factor = 1.17 + level * 0.03;
+		double onset = 12 + 3 * level;
 
 		RescaleOp rescaleOp = new RescaleOp((float)factor, (int)onset, null);
 
@@ -164,7 +168,7 @@ public class TheImage {
 
 		updatePixel();
 
-		System.out.println("Brighten.");
+		System.out.println("Brightened.");
 	}
 
 	//Uses bitwise operations to convert one integer into four channels,
