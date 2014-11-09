@@ -106,8 +106,11 @@ public class Editor {
 						System.out.println("Input was not a valid input type for range. Try again.");
 						System.out.println("Enter an integer specifying how large a range of colors to replace:");
 					}
-
 					int range = console.nextInt();
+
+					//flushes the empty line generated from nextInt()... waiting for better way to handle this
+					console.nextLine();
+
 					image.replaceColor(oldColor, newColor, range);
 					break;
 				case "quit":
