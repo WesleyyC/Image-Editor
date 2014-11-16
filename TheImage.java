@@ -71,9 +71,9 @@ public class TheImage {
 		{
 			for (int j = 0; j < pixelData[i].length; j++)
 			{
-				pixelData[i][j][0] = Math.abs (pixelData[i][j][0] - 255);
-				pixelData[i][j][1] = Math.abs (pixelData[i][j][1] - 255);
-				pixelData[i][j][2] = Math.abs (pixelData[i][j][2] - 255);
+				pixelData[i][j][0] = 255 - pixelData[i][j][0];
+				pixelData[i][j][1] = 255 - pixelData[i][j][1];
+				pixelData[i][j][2] = 255 - pixelData[i][j][2];
 			}
 		}
 
