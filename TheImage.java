@@ -20,10 +20,10 @@ public class TheImage {
 		this.sourceImg = sourceImg;
 		height = im.getHeight();
 		width = im.getWidth();
-		System.out.println(width);
-		System.out.println(height);
+		ConsolePrinter.BLUE.print("Width: " + width);
+		ConsolePrinter.BLUE.print("Height: " + height);
 
-		System.out.println("Getting pixel values from packed data...");
+		ConsolePrinter.BLUE.print("Getting pixel values from packed data...");
 		unpackPixels();
 		label = "";
 	}
@@ -43,7 +43,7 @@ public class TheImage {
 		}
 
 		label += "flipHorz-";
-		System.out.println("Flipped Horizontally.");
+		ConsolePrinter.GREEN.print("Flipped Horizontally.");
 	}
 
 	// Flip the picture vertically.
@@ -61,7 +61,7 @@ public class TheImage {
 		}
 
 		label += "flipVert-";
-		System.out.println("Flipped Vertically.");
+		ConsolePrinter.GREEN.print("Flipped Vertically.");
 	}
 
 	// Invert the color of the picture.
@@ -78,7 +78,7 @@ public class TheImage {
 		}
 
 		label += "invert-";
-		System.out.println("Inverted.");
+		ConsolePrinter.GREEN.print("Inverted.");
 	}
 
 	// Replace the color in a certain range.
@@ -101,7 +101,7 @@ public class TheImage {
 		}
 
 		label += "replaceColr-";
-		System.out.println("Replaced color");
+		ConsolePrinter.GREEN.print("Replaced color");
 	}
 
 	//Writes the current buffered image to a new image file 
@@ -114,11 +114,11 @@ public class TheImage {
 			File directory = new File(directoryPath);
 			try {
 				if (!directory.isDirectory()) {
-					System.out.println("The path you typed in was not a valid directory path. Please try again.");
+					ConsolePrinter.RED.print("The path you typed in was not a valid directory path. Please try again.");
 					return false;
 				}
 			} catch(SecurityException e) {
-				System.out.println("You don't have access to this directory. Please try another location.");
+				ConsolePrinter.RED.print("You don't have access to this directory. Please try another location.");
 				return false;
 			}
 		}
@@ -136,7 +136,7 @@ public class TheImage {
 		try{
 			ImageIO.write(im, format, saveImg);
 		} catch (IOException e) {
-			System.out.println("Something went wrong when attempting to save the edited image. Please try again.");
+			ConsolePrinter.RED.print("Something went wrong when attempting to save the edited image. Please try again.");
 			return false;
 		}
 
@@ -159,8 +159,8 @@ public class TheImage {
 		im = im.getSubimage(startX, startY, sideLength, sideLength);
 		updateImage();
 
-		label += "crop";
-		System.out.println("Cropped.");
+		label += "crop-";
+		ConsolePrinter.GREEN.print("Cropped.");
 	}
 
 	// Brighten the function of different level.
@@ -177,8 +177,8 @@ public class TheImage {
 
 		updateImage();
 
-		label += "brighten";
-		System.out.println("Brightened.");
+		label += "brighten-";
+		ConsolePrinter.GREEN.print("Brightened.");
 	}
 
 	//Uses bitwise operations to convert one integer into four channels,
@@ -207,8 +207,8 @@ public class TheImage {
 
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
 	//into a single integer for use with the BufferedImage class.
-	public void packPixels() {
-		System.out.println("putting pixel values in packed format...");
+	private void packPixels() {
+		ConsolePrinter.BLUE.print("putting pixel values in packed format...");
 
 		// Pack the data from the startX and startY coordinate
 		for (int row = 0; row < height; row ++) {

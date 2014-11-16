@@ -4,31 +4,17 @@ import javax.imageio.*;
 import java.io.*;
 
 public class Editor {
-	// ANSI COLOR
-// USAGE: System.out.println(ANSI_RED + "This text is red!" + ANSI_RESET);
-//========================================================//
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_BLACK = "\u001B[30m";
-	public static final String ANSI_RED = "\u001B[31m";
-	public static final String ANSI_GREEN = "\u001B[32m";
-	public static final String ANSI_YELLOW = "\u001B[33m";
-	public static final String ANSI_BLUE = "\u001B[34m";
-	public static final String ANSI_PURPLE = "\u001B[35m";
-	public static final String ANSI_CYAN = "\u001B[36m";
-	public static final String ANSI_WHITE = "\u001B[37m";
-//========================================================//
-
 	private static final String[] COLOR = {"Red", "Green", "Blue"};
 	private static Scanner console;
 	private static TheImage image;
 
 	public static void main(String[] args) {
-		System.out.println();
-		System.out.println("           =====================================           ");
-		System.out.println("           Welcome to command line image editor.           ");
-		System.out.println("           =====================================           ");
-		System.out.println();
-		System.out.println(">>>>>Type 'help' for usage information and 'load' for loading image.<<<<<<<");
+		ConsolePrinter.WHITE.print("\n");
+		ConsolePrinter.WHITE.print("               =====================================           ");
+		ConsolePrinter.WHITE.print("               Welcome to command line image editor.           ");
+		ConsolePrinter.WHITE.print("               =====================================           ");
+		ConsolePrinter.WHITE.print("\n");
+		ConsolePrinter.WHITE.print(">>>>>Type 'help' for usage information and 'load' for loading image.<<<<<<<");
 
 		console = new Scanner(System.in);
 		interact();
@@ -41,7 +27,7 @@ public class Editor {
 		boolean hasQuit = false;
 
 		while (image == null && !hasQuit) {
-			System.out.println("Enter command:");
+			ConsolePrinter.CYAN.print("Enter command:");
 			command = console.nextLine().toLowerCase().trim();
 
 			switch (command) {
@@ -52,18 +38,18 @@ public class Editor {
 					image = loadImage();
 					break;
 				case "quit":
-					System.out.println("Terminating.");
+					ConsolePrinter.WHITE.print("Terminating.");
 					hasQuit = true;
 					console.close();
 					break;
 				default:
-					System.out.println("Please load an image before proceeding to other commands. Type help if you need help.");
+					ConsolePrinter.RED.print("Please load an image before proceeding to other commands. Type help if you need help.");
 					break;
 			}
 		}
 
 		while (!hasQuit) {
-			System.out.println("Enter command:");
+			ConsolePrinter.CYAN.print("Enter command:");
 			command = console.nextLine().toLowerCase().trim();
 
 			switch (command) {
@@ -80,7 +66,7 @@ public class Editor {
 					image.flipHorizontal();
 					break;
 				case "brighten":
-					System.out.print("From 1-3, indicate the level of the brighten:  ");
+					ConsolePrinter.YELLOW.print("From 1-3, indicate the level of the brighten:  ");
 					image.brighten(doubleInput());
 					break;
 				case "crop":
@@ -94,18 +80,18 @@ public class Editor {
 					break;
 				case "replace":
 					//Get additional user input
-					System.out.println("Enter integers for the color to replace:");
+					ConsolePrinter.YELLOW.print("Enter integers for the color to replace:");
 					int[] oldColor = getColor();
 		
-					System.out.println("Enter integers for the new color:");
+					ConsolePrinter.YELLOW.print("Enter integers for the new color:");
 					int[] newColor = getColor();
 					
-					System.out.println("Enter an integer specifying how large a range of colors to replace:");
+					ConsolePrinter.YELLOW.print("Enter an integer specifying how large a range of colors to replace:");
 
 					while (!console.hasNextInt()) {
 						console.next();
-						System.out.println("Input was not a valid input type for range. Try again.");
-						System.out.println("Enter an integer specifying how large a range of colors to replace:");
+						ConsolePrinter.RED.print("Input was not a valid input type for range. Try again.");
+						ConsolePrinter.YELLOW.print("Enter an integer specifying how large a range of colors to replace:");
 					}
 					int range = console.nextInt();
 
@@ -115,17 +101,16 @@ public class Editor {
 					image.replaceColor(oldColor, newColor, range);
 					break;
 				case "quit":
-					System.out.println("Terminating.");
+					ConsolePrinter.WHITE.print("Terminating.");
 					hasQuit = true;
 					console.close();
 					break;
 				default:
-					System.out.println("command '" + command + "' not found. Type 'help' for usage information.");
+					ConsolePrinter.RED.print("command '" + command + "' not found. Type 'help' for usage information.");
 					break;
 			}
 		}
 	}
-
 
 	//Reads in three integer values representing the red, green, and blue
 	//channels of a color. Also does error checking to keep values between 0 and 255.
@@ -135,20 +120,20 @@ public class Editor {
 			boolean isValid = false;
 
 			while(!isValid) {
-				System.out.println(COLOR[i] + " (0 - 255):");
+				ConsolePrinter.YELLOW.print(COLOR[i] + " (0 - 255):");
 				
 				if (console.hasNextInt()) {
 					rgb[i] = console.nextInt();
 
 					if (rgb[i] < 0 || rgb[i] > 255) {
-						System.out.println("Input out of range 0 - 255, try again.");
+						ConsolePrinter.RED.print("Input out of range 0 - 255, try again.");
 					} else {
 						isValid = true;
 					}
 				} else {
 					//skip the garbage in the console
 					console.next();
-					System.out.println("Improper input type. Try again.");
+					ConsolePrinter.RED.print("Improper input type. Try again.");
 				}	
 			} // end while loop 
 		} // end for loop
@@ -158,20 +143,20 @@ public class Editor {
 
 	//Prints usage information for this program.
 	private static void displayHelp() {
-		System.out.println("Usage:");
-		System.out.println("'help' -- Displays this list of commands.");
-		System.out.println("'quit' -- Causes the program to terminate.");
-		System.out.println("'load' -- Prompts for image file name and loads that image.\n" +
+		ConsolePrinter.PURPLE.print("Usage:");
+		ConsolePrinter.PURPLE.print("'help' -- Displays this list of commands.");
+		ConsolePrinter.PURPLE.print("'quit' -- Causes the program to terminate.");
+		ConsolePrinter.PURPLE.print("'load' -- Prompts for image file name and loads that image.\n" +
 								"Replaces any image currently in memory.");
-		System.out.println("'save' -- Prompts for filename and writes current image to file.");
-		System.out.println("'flip-horiz' -- Calls the flipHorizontal() method of the current image.");
-		System.out.println("'flip-vert' -- Calls the flipVertical() method of the current image.");
-		System.out.println("'invert' -- Calls the invert() method of the current image.");
-		System.out.println("'replace' -- Calls the replaceColor() method of the current image.\n" +
+		ConsolePrinter.PURPLE.print("'save' -- Prompts for filename and writes current image to file.");
+		ConsolePrinter.PURPLE.print("'flip-horiz' -- Calls the flipHorizontal() method of the current image.");
+		ConsolePrinter.PURPLE.print("'flip-vert' -- Calls the flipVertical() method of the current image.");
+		ConsolePrinter.PURPLE.print("'invert' -- Calls the invert() method of the current image.");
+		ConsolePrinter.PURPLE.print("'replace' -- Calls the replaceColor() method of the current image.\n" +
 							"Subsequently prompts for two colors and a range.");
-		System.out.println("'crop' -- Calls the crop() method of the current image.\n" +
+		ConsolePrinter.PURPLE.print("'crop' -- Calls the crop() method of the current image.\n" +
 							"Crop the image as a squre at the center.");
-		System.out.println("'brighten' -- Calls the brighten() method of the current image.\n" +
+		ConsolePrinter.PURPLE.print("'brighten' -- Calls the brighten() method of the current image.\n" +
 							"Subsequently prompts for the increase level from 1-3.");
 	}
 
@@ -179,7 +164,7 @@ public class Editor {
 	//Returns null if load fails.
 	private static TheImage loadImage() {
 		//load file
-		System.out.println("Enter the name of the file you wish to load:");
+		ConsolePrinter.YELLOW.print("Enter the name of the file you wish to load:");
 		//get file path from user
 		String filePath = console.nextLine().trim();
 		File sourceFile = new File(filePath);
@@ -190,19 +175,19 @@ public class Editor {
 			bi = ImageIO.read(in);
 
 		} catch (FileNotFoundException e) {
-			System.out.println("Couldn't find file " + sourceFile.getAbsolutePath());
-			System.out.println("Please make sure your pet did not eat it.");
+			ConsolePrinter.RED.print("Couldn't find file " + sourceFile.getAbsolutePath());
+			ConsolePrinter.RED.print("Please make sure your pet did not eat it.");
 			return loadImage();
 		} catch (IOException e) {
-			System.out.println("Image load failed.");
+			ConsolePrinter.RED.print("Image load failed.");
 			return null;
 		}
 
-		System.out.println("Image successfully loaded.");
+		ConsolePrinter.GREEN.print("Image successfully loaded.");
 		return new TheImage(bi, sourceFile);
 	}
 
-	public static double doubleInput(){
+	private static double doubleInput(){
 		double number;
 
 		try{
@@ -210,13 +195,13 @@ public class Editor {
 			if(number >=1 && number <=3){
 				return number;
 			}else{
-				System.out.print("Sorry. The level has to be between 1-3, but it can has decimal: ");
+				ConsolePrinter.RED.print("Sorry. The level has to be between 1-3, but it can has decimal: ");
 				// Use a recursive function instead of a loop to simplify.
 				// Do not reuse the code on mobile device.
 				return doubleInput();
 			}
 		} catch(NumberFormatException e){
-			System.out.print("Sorry. Please input a number between 1-3: ");
+			ConsolePrinter.RED.print("Sorry. Please input a number between 1-3: ");
 			// Use a recursive function instead of a loop to simplify.
 			// Do not reuse the code on mobile device.
 			return doubleInput();
@@ -228,14 +213,14 @@ public class Editor {
 		boolean hasSaved = false;
 
 		while (!hasSaved) {
-			System.out.println("Type in the directory path where you wish to save your image.");
-			System.out.println("Simply hit 'Enter' with empty input to save under the same directory of the source image.");
+			ConsolePrinter.YELLOW.print("Type in the directory path where you wish to save your image.");
+			ConsolePrinter.YELLOW.print("Simply hit 'Enter' with empty input to save under the same directory of the source image.");
 			String savePath = console.nextLine().trim();
 
 			hasSaved = image.writeImage(savePath);
 		} // end while
 
-		System.out.println("Image successfully saved.");
+		ConsolePrinter.GREEN.print("Image successfully saved.");
 	} // end saveImageHelper
 
 }
