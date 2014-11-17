@@ -100,6 +100,9 @@ public class Editor {
 
 					image.replaceColor(oldColor, newColor, range);
 					break;
+				case "rollback":
+					rollbackHelper();
+					break;
 				case "quit":
 					ConsolePrinter.WHITE.print("Terminating.");
 					hasQuit = true;
@@ -222,5 +225,30 @@ public class Editor {
 
 		ConsolePrinter.GREEN.print("Image successfully saved.");
 	} // end saveImageHelper
+
+	private static void rollbackHelper(){
+		if (image.hasUnsavedWork() && !image.getLabel().isEmpty()) {
+			ConsolePrinter.YELLOW.print("Are you sure you want to discard all the unsaved changes? y/s");
+			String confirmation = console.nextLine().toLowerCase().trim();
+		
+			if (confirmation.equals("y")) {
+				image.rollback();
+			} else {
+				//Just to play on the safe side, this will include "n" and any other random input
+				ConsolePrinter.RED.print("Cancelled rollback.");
+			}
+		} else if (!image.hasUnsavedWork() && !image.getLabel().isEmpty()) {
+			ConsolePrinter.BLUE.print("Looks like you don't want to edit the image on top of the previously saved changes. Wiping out...");
+			image.rollback();
+		} else if (!image.hasUnsavedWork() && image.getLabel().isEmpty()) {
+			ConsolePrinter.RED.print("You didn't modify the original image at all. Rollback nothing.");
+		} else {
+			//case where there is unsaved work but the label is empty... something went wrong!
+			ConsolePrinter.RED.print("Woops, the status for your image is inconsistent. Something has gone wrong.");
+			ConsolePrinter.RED.print("We recommend you to use command 'save' to save whatever is in there just to be safe.");
+			ConsolePrinter.RED.print("We would appreciate it if you report this back to us.");
+			ConsolePrinter.RED.print("Cancelled rollback");
+		}
+	}
 
 }

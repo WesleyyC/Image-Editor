@@ -12,7 +12,8 @@ public class TheImage {
 	private int[][][] pixelData = null; 	// Unit be modified.
 	private int height = 0;
 	private int width = 0;
-	private String label = null;
+	private String label = null; // this should ALWAYS reflect the operations done on the buffered image 'im'
+	private boolean hasUnsavedWork;
 
 	// Constructor.
 	public TheImage (BufferedImage image, File sourceImg) {
@@ -26,6 +27,7 @@ public class TheImage {
 		ConsolePrinter.BLUE.print("Getting pixel values from packed data...");
 		unpackPixels();
 		label = "";
+		hasUnsavedWork = false;
 	}
 
 	// Flip the picture horizontally.
@@ -43,6 +45,7 @@ public class TheImage {
 		}
 
 		label += "flipHorz-";
+		hasUnsavedWork = true;
 		ConsolePrinter.GREEN.print("Flipped Horizontally.");
 	}
 
@@ -60,6 +63,7 @@ public class TheImage {
 			}
 		}
 
+		hasUnsavedWork = true;
 		label += "flipVert-";
 		ConsolePrinter.GREEN.print("Flipped Vertically.");
 	}
@@ -77,6 +81,7 @@ public class TheImage {
 			}
 		}
 
+		hasUnsavedWork = true;
 		label += "invert-";
 		ConsolePrinter.GREEN.print("Inverted.");
 	}
@@ -100,6 +105,7 @@ public class TheImage {
 			}
 		}
 
+		hasUnsavedWork = true;
 		label += "replaceColr-";
 		ConsolePrinter.GREEN.print("Replaced color");
 	}
@@ -140,6 +146,7 @@ public class TheImage {
 			return false;
 		}
 
+		hasUnsavedWork = false;
 		return true;
 	}
 
@@ -159,6 +166,7 @@ public class TheImage {
 		im = im.getSubimage(startX, startY, sideLength, sideLength);
 		updateImage();
 
+		hasUnsavedWork = true;
 		label += "crop-";
 		ConsolePrinter.GREEN.print("Cropped.");
 	}
@@ -177,6 +185,7 @@ public class TheImage {
 
 		updateImage();
 
+		hasUnsavedWork = true;
 		label += "brighten-";
 		ConsolePrinter.GREEN.print("Brightened.");
 	}
@@ -196,6 +205,33 @@ public class TheImage {
 				pixelData[row][col][2] = (packedData[(row * width) + col]) & 0xff;
 			}
 		}
+	}
+
+	public void rollback() {
+		try(InputStream in = new FileInputStream(this.sourceImg)){
+			this.im = ImageIO.read(in);
+
+			unpackPixels();
+			hasUnsavedWork = false;
+			label = "";
+
+			ConsolePrinter.GREEN.print("Successfully rollback. Feel free to start fresh.");
+		} catch (FileNotFoundException e) {
+			ConsolePrinter.RED.print("Couldn't find the original file " + this.sourceImg.getAbsolutePath());
+			ConsolePrinter.RED.print("Did you delete the file?");
+			ConsolePrinter.RED.print("Rollback failed.");
+		} catch (IOException e) {
+			ConsolePrinter.RED.print("Something went wrong when trying to re-load the oringal image.");
+			ConsolePrinter.RED.print("Rollback failed");
+		}
+	}
+
+	public boolean hasUnsavedWork(){
+		return this.hasUnsavedWork;
+	}
+
+	public String getLabel(){
+		return this.label;
 	}
 
 	// Called whenever buffered image is changed by external library
