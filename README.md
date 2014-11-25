@@ -4,7 +4,8 @@ ImageEditor
 
 An image editor in terminal interface written in Java with flipping and cropping image, invert and reverse color functionality. Color filter function are working in progress.
 
-Craft with Java and use library including java.awt.image and javax.imageio
+Craft with Java and use library including java.awt.image and javax.imageio.
+
 Please ensure you have installed Java with version 7 or above.
 
 Run Image Editor:
