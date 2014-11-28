@@ -10,8 +10,8 @@ Please ensure you have installed Java with version 7 or above.
 
 Run Image Editor:
 ```shell
-javac Editor.java; javac TheImage.java; javac ConsolePrinter.java;
-java Editor
+javac Editor.java;
+java Editor;
 ```
 
 Feature to be added:
