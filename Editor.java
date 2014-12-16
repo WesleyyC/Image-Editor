@@ -78,14 +78,17 @@ public class Editor {
 				case "invert":
 					image.invert();
 					break;
+				case "rotateright":
+					image.rotateRight();
+					break;
 				case "replace":
 					//Get additional user input
 					ConsolePrinter.YELLOW.print("Enter integers for the color to replace:");
 					int[] oldColor = getColor();
-		
+
 					ConsolePrinter.YELLOW.print("Enter integers for the new color:");
 					int[] newColor = getColor();
-					
+
 					ConsolePrinter.YELLOW.print("Enter an integer specifying how large a range of colors to replace:");
 
 					while (!console.hasNextInt()) {
@@ -124,7 +127,7 @@ public class Editor {
 
 			while(!isValid) {
 				ConsolePrinter.YELLOW.print(COLOR[i] + " (0 - 255):");
-				
+
 				if (console.hasNextInt()) {
 					rgb[i] = console.nextInt();
 
@@ -137,10 +140,10 @@ public class Editor {
 					//skip the garbage in the console
 					console.next();
 					ConsolePrinter.RED.print("Improper input type. Try again.");
-				}	
-			} // end while loop 
+				}
+			} // end while loop
 		} // end for loop
-		
+
 		return rgb;
 	}
 
@@ -155,6 +158,7 @@ public class Editor {
 		ConsolePrinter.PURPLE.print("'flip-horiz' -- Calls the flipHorizontal() method of the current image.");
 		ConsolePrinter.PURPLE.print("'flip-vert' -- Calls the flipVertical() method of the current image.");
 		ConsolePrinter.PURPLE.print("'invert' -- Calls the invert() method of the current image.");
+		ConsolePrinter.PURPLE.print("'rotateRight' -- Rotate 90 degree right of the current image.");
 		ConsolePrinter.PURPLE.print("'replace' -- Calls the replaceColor() method of the current image.\n" +
 							"Subsequently prompts for two colors and a range.");
 		ConsolePrinter.PURPLE.print("'crop' -- Calls the crop() method of the current image.\n" +
@@ -230,7 +234,7 @@ public class Editor {
 		if (image.hasUnsavedWork() && !image.getLabel().isEmpty()) {
 			ConsolePrinter.YELLOW.print("Are you sure you want to discard all the unsaved changes? y/s");
 			String confirmation = console.nextLine().toLowerCase().trim();
-		
+
 			if (confirmation.equals("y")) {
 				image.rollback();
 			} else {

@@ -68,6 +68,31 @@ public class TheImage {
 		ConsolePrinter.GREEN.print("Flipped Vertically.");
 	}
 
+	public void rotateRight()
+	{
+		int[][][] pixelDataNew = new int[pixelData[0].length][pixelData.length][3];
+
+		for (int i = 0; i < pixelData.length; i++)
+		{
+			for (int j = 0; j < pixelData[i].length; j++)
+			{
+				pixelDataNew[j][pixelData.length-1-i]=pixelData[i][j];
+			}
+		}
+
+
+		width = pixelDataNew[0].length;
+		height = pixelDataNew.length;
+		pixelData = pixelDataNew;
+		packPixels();
+		im = new BufferedImage(width,height,im.getType());
+		im.setRGB(0, 0, width, height, packedData, 0, width);
+
+		hasUnsavedWork = true;
+		label += "rotate-";
+		ConsolePrinter.GREEN.print("Rotated.");
+	}
+
 	// Invert the color of the picture.
 	public void invert()
 	{
@@ -110,7 +135,7 @@ public class TheImage {
 		ConsolePrinter.GREEN.print("Replaced color");
 	}
 
-	//Writes the current buffered image to a new image file 
+	//Writes the current buffered image to a new image file
 	//First pack the pixelData into a 1D array of ints, then call the write() method in the ImageIO class.
 	public boolean writeImage(String directoryPath) {
 		//Validate and prepare file path to write image to
@@ -244,8 +269,6 @@ public class TheImage {
 	//Uses bitwise operations to convert four integer (ranging from 0 to 255)
 	//into a single integer for use with the BufferedImage class.
 	private void packPixels() {
-		ConsolePrinter.BLUE.print("putting pixel values in packed format...");
-
 		// Pack the data from the startX and startY coordinate
 		for (int row = 0; row < height; row ++) {
 			for (int col = 0; col < width; col ++) {
