@@ -10,8 +10,7 @@ Please ensure you have installed Java with version 7 or above.
 
 Run Image Editor:
 ```shell
-javac Editor.java;
-java Editor;
+sh run.sh;
 ```
 
 Feature to be added:
