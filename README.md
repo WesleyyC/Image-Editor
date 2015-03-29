@@ -9,7 +9,7 @@ Please ensure you have installed Java with version 7 or above.
 
 Run Image Editor:
 ```shell
-sh run.sh;
+sh run.sh
 ```
 
 ### Working In Progress:
