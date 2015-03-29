@@ -2,7 +2,7 @@
 An image editor in terminal interface written in Java with flipping and cropping image, invert and reverse color functionality.
 
 ### Screenshoot
-![ScreenShootMain](http://i.imgur.com/U1HuAoa.png)
+![ScreenShootMain](http://i.imgur.com/aE0lJJN.png?1)
 
 ### Usage
 Please ensure you have installed Java with version 7 or above.
@@ -13,5 +13,5 @@ sh run.sh;
 ```
 
 ### Working In Progress:
-- Change color tone of the image.
+- Images blending/overlap.
 - Simple filter on the image.
